@@ -9,6 +9,7 @@ class Composer {
     @required this.composing,
     @required this.sourceText,
     @required this.onDetectionTyped,
+    @required this.isInDetection,
     @required this.selection,
     @required this.detectedStyle,
   });
@@ -17,6 +18,7 @@ class Composer {
   final TextRange composing;
   final String sourceText;
   final ValueChanged<String> onDetectionTyped;
+  final ValueChanged<bool> isInDetection;
   final int selection;
   final TextStyle detectedStyle;
   // TODO(Takahashi): Add test code for composing
@@ -84,8 +86,8 @@ class Composer {
 
   void callOnDetectionTyped() {
     final typingDecoration = detections.firstWhere(
-      (decoration) =>
-          decoration.style == detectedStyle &&
+          (decoration) =>
+      decoration.style == detectedStyle &&
           decoration.range.start <= selection &&
           decoration.range.end >= selection,
       orElse: () {
@@ -93,7 +95,32 @@ class Composer {
       },
     );
     if (typingDecoration != null) {
+
+      isInDetection(true);
       onDetectionTyped(typingDecoration.range.textInside(sourceText));
+    }
+  }
+
+  void callIsInDetectionFalse() {
+    final typingDecoration = detections.firstWhere(
+          (decoration) =>
+      decoration.style == detectedStyle &&
+          decoration.range.start <= selection &&
+          decoration.range.end >= selection,
+      orElse: () {
+        return null;
+      },
+    );
+    if (typingDecoration == null) {
+      isInDetection(false);
+    } else if (typingDecoration != null) {
+      var lastDetectedText = typingDecoration.range.textInside(sourceText);
+      var substringOfSource = sourceText.substring(sourceText.length - typingDecoration.range
+          .textInside(sourceText)
+          .length, sourceText.length);
+      if (lastDetectedText != substringOfSource) {
+        isInDetection(false);
+      }
     }
   }
 }

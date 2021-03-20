@@ -137,6 +137,7 @@ class DetectableTextField extends StatefulWidget {
     Key key,
     @required this.detectionRegExp,
     this.onDetectionTyped,
+    this.isInDetection,
     this.detectedStyle,
     this.controller,
     this.focusNode,
@@ -231,6 +232,7 @@ class DetectableTextField extends StatefulWidget {
         super(key: key);
 
   final ValueChanged<String> onDetectionTyped;
+  final ValueChanged<bool> isInDetection;
 
   /// TextStyle of detected text
   final TextStyle detectedStyle;
@@ -928,6 +930,7 @@ class _DetectableTextFieldState extends State<DetectableTextField>
         detectedStyle: detectedStyle,
         detectionRegExp: widget.detectionRegExp,
         onDetectionTyped: widget.onDetectionTyped,
+        isInDetection: widget.isInDetection,
         readOnly: widget.readOnly,
         toolbarOptions: widget.toolbarOptions,
         showCursor: widget.showCursor,

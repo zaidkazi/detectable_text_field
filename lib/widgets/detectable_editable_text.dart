@@ -21,6 +21,7 @@ class DetectableEditableText extends EditableText {
     @required this.detectionRegExp,
     @required Color cursorColor,
     @required this.onDetectionTyped,
+    @required this.isInDetection,
     ValueChanged<String> onChanged,
     ValueChanged<String> onSubmitted,
     int maxLines,
@@ -131,6 +132,7 @@ class DetectableEditableText extends EditableText {
   final RegExp detectionRegExp;
 
   final ValueChanged<String> onDetectionTyped;
+  final ValueChanged<bool> isInDetection;
 
   @override
   DetectableEditableTextState createState() => DetectableEditableTextState();
@@ -160,18 +162,21 @@ class DetectableEditableTextState extends EditableTextState {
     final String sourceText = textEditingValue.text;
     final detections = detector.getDetections(sourceText);
     if (detections.isEmpty) {
+      widget.isInDetection(false);
       /// use same method as default textField to show composing underline
       return widget.controller.buildTextSpan(
         style: widget.style,
         withComposing: !widget.readOnly,
       );
     } else {
+
       /// use [Composer] to show composing underline
       detections.sort();
       final composing = textEditingValue.composing;
       final composer = Composer(
         selection: textEditingValue?.selection?.start ?? -1,
         onDetectionTyped: widget.onDetectionTyped,
+        isInDetection: widget.isInDetection,
         sourceText: sourceText,
         detections: detections,
         composing: composing,
@@ -180,6 +185,10 @@ class DetectableEditableTextState extends EditableTextState {
       if (widget.onDetectionTyped != null) {
         composer.callOnDetectionTyped();
       }
+      if (widget.isInDetection != null) {
+        composer.callIsInDetectionFalse();
+      }
+
       return composer.getComposedTextSpan();
     }
   }
