@@ -47,8 +47,8 @@ class DetectableText extends StatelessWidget {
     final theme = Theme.of(context);
     final TextStyle style = theme.textTheme.subtitle1.merge(basicStyle);
     final dStyle = detectedStyle ?? style.copyWith(color: Colors.blue);
-    return RichText(
-      text: getDetectedTextSpan(
+    return SelectableText.rich(
+      getDetectedTextSpan(
         decoratedStyle: dStyle,
         basicStyle: style,
         onTap: onTap,
@@ -57,11 +57,8 @@ class DetectableText extends StatelessWidget {
       ),
       textAlign: textAlign,
       textDirection: textDirection,
-      softWrap: softWrap,
-      overflow: overflow,
       textScaleFactor: textScaleFactor,
       maxLines: maxLines,
-      locale: locale,
       strutStyle: strutStyle,
       textWidthBasis: textWidthBasis,
       textHeightBehavior: textHeightBehavior,
