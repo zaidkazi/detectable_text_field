@@ -2,7 +2,7 @@
 ///
 /// Supports English, Japanese, Korean, Spanish, Arabic, and Thai
 
-const _symbols = '·・ー_';
+const _symbols = '.·・ー_';
 
 const _numbers = '0-9０-９';
 
@@ -52,29 +52,27 @@ final urlRegex = RegExp(
 );
 
 /// Regular expression when you select decorateAtSign
- final hashTagAtSignRegExp = RegExp(
+final hashTagAtSignRegExp = RegExp(
   "(?!\\n)(?:^|\\s)([#@]([$detectionContentLetters]+))",
   multiLine: true,
 );
 
- final HASHATDOLLA = RegExp(
+final HASHATDOLLA = RegExp(
   "(?!\\n)(?:^|\\s)([#@\$]([$detectionContentLetters]+))",
   multiLine: true,
 );
 
-
- final hashTagUrlRegExp = RegExp(
+final hashTagUrlRegExp = RegExp(
   "(?!\\n)(?:^|\\s)([#]([$detectionContentLetters]+))|$urlRegexContent",
   multiLine: true,
 );
 
- final hashTagAtSignUrlRegExp = RegExp(
+final hashTagAtSignUrlRegExp = RegExp(
   "(?!\\n)(?:^|\\s)([#@]([$detectionContentLetters]+))|$urlRegexContent",
   multiLine: true,
 );
 
- final atSignUrlRegExp = RegExp(
+final atSignUrlRegExp = RegExp(
   "(?!\\n)(?:^|\\s)([@]([$detectionContentLetters]+))|$urlRegexContent",
   multiLine: true,
 );
-
